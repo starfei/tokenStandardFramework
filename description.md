@@ -1,79 +1,72 @@
-﻿# Blockchain-Based Token Standard Framework 
+﻿区块链代币的标准框架
 
-This document introduces a standard framework aims to evaluate blockchain tokens based on both the **underlying source code and its technological implementation**.
+本文介绍了一个旨在基于<底层源代码及其技术实现>评估区块链代币的基本框架。第一节解释了框架及其标准集。第二部分将此框架应用于一组现有的区块链代币系统。
 
-The first section explains the framework and its set of criteria. The second segment applies this framework to a set of existing blockchain-based tokens. 
+## 1. 框架定义
+本小节讨论并介绍了一个多标准框架，该框架基于底层源代码及其技术实现来分析和区分代币。
 
-## 1. Framework definition
+### (1) 区块链和网络层级
 
-This subsection discusses and introduces a multi-criteria standard framework to analyze and distinguish tokens based on both the underlying source code and its technological implementation.
+第一个标准是指代币发行的区块链系统。例如，USD Coin（USDC）是一种资产，仅在以太坊区块链上运行。
 
-### (1) Blockchain(s) and Layer(s)
+相反，一些资产存在于多个区块链上。美元稳定币Tether在四个不同的网络上运行：比特币（通过Omni层）、EOS、以太坊和Tron。类似地，Binance GBP 稳定币（BGBP）运行在以太坊和Binance链上。
 
-The first element refers to the blockchain(s) where the token is issued. As an example, USD Coin (USDC) is an asset, running solely on the Ethereum blockchain.
+此外，代币可以在第一层和第二层网络上发行。
 
-Conversely, some assets exist on multiple blockchains. USD Tether runs on four different networks: Bitcoin (through the Omni layer), EOS, Ethereum, and Tron. Similarly, Binance GBP Stablecoin (BGBP) runs on both Ethereum and Binance Chain.
+代币发行在第一层的例子包括USDC（在以太坊上）或BTT（在tron上），而发行在第二层的代币包括USDH（基于简单分类协议上，在比特币现金上运行）和USDT（基于omni层，在比特币上构建）。
 
-Furthermore, tokens can be issued on first and second layer.
+### (2) 所有权模式：基于UTXO或基于账户模型
 
-Examples of first-layer tokens include USDC (on Ethereum) or BTT (on Tron), while second-layer tokens include USDH (on the Simple Ledger Protocol, running on Bitcoin Cash) and USDT (running on the Omni layer, built on Bitcoin).  
+第二个标准涉及代币的所有权。
 
-### (2) Ownership Model: UTXO vs. Account-Based Model
+以太坊或NEO等许多区块链都使用基于「账户」的模式。代币所有权通过每个地址的余额来表示。
 
-This second criterion refers to the ownership of the tokens.
+比特币、Plasma则使用utxo（未花费输出）模型。上一笔交易的输出会作为下一笔交易的输入。
 
-Many blockchains such as Ethereum or NEO rely on an account-based model. Token ownership is reflected based on looking at balances for each address.
+### (3) 原生或构造
 
-On the other hand, the UTXO (Unspent Transaction Output) model is used by Plasma side-chains. Token ownership links to the ability to use the private key, which allows a UTXO to be spent. 
+「原生标准」指该区块链支持在其链上创建特定的代币，使用BEP-2标准的Binance Chain是个很好的例子。例如，从代码的角度来看，在Binance Chain上构建的代币都是以原生（基于BEP-2标准）的方式运行的。
 
-### (3) Native vs. Constructed Standard
+因此，BNB（binance-chain native token）与根据BEP-2标准（例如MITH）发布的其他代币类似，都在Binance链上原生运行。
 
-A native standard refers to a blockchain which natively supports the creation of specific tokens on its chain, Binance Chain being a prime example with the BEP-2 standard. For example - from a code perspective - tokens built on the Binance Chain all run natively. 
+「构造标准」是指该区块链的代币基于智能合约部署运行。以太坊的ERC-20和tron的TRC-20是两个较为熟知的「构造标准」。例如，ERC-20代币不是原生运行在区块链上，而是运行在虚拟机（例如以太坊虚拟机）上的。
 
-As a result, BNB (the Binance Chain Native Token) is similar to other tokens issued under the BEP-2 standard (e.g., MITH), which all run natively on the Binance Chain.
+### (4) 同质化状态
 
-On the other hand, a constructed standard refers to a blockchain whose tokens run owing to the deployment of a smart-contract. Ethereum's ERC-20 and Tron's TRC-20 are two familiar standards. For instance, ERC-20 tokens are not recognized at the blockchain level and run on a Virtual Machine (e.g., the Ethereum Virtual Machine).
+另一个关键的标准是代币的同质化状态。代币分为同质化、非同质化和部分同质化代币。
 
-### (4) Fungibility Status
+同质化代币是指其值相同且彼此间无不同特征的代币。简而言之，同质化代币是可互换的。
 
-Another critical distinction relates to each token’s fungibility status. Tokens can exist as fungible, non-fungible, and partially fungible. A fungible token refers to tokens whose value is the same with no distinct features between each other. In short, fungible tokens are interchangeable.
+非同质化代币（nft）是一种特殊类型的令牌，它表示一些独特的东西（例如，一个cryptokitty）。因此，NFT（即使来自同一类型）是不可互换的。
 
-A non-fungible token (NFT) is a particular type of tokens that represents something unique (e.g., a CryptoKitty). As a result, NFT (even from the same type) are not interchangeable.
+部分同质化代币是一种所有权可划分为不同分区，分区包含同质的和非同质形式的代币。例如证券型代币，其中非同质化的分区可能具有特定契约（例如，授予代币所有者特定的归属期限）。
 
-A partially fungible token is a type of token whose ownership can be divided into different partitions with partitions being fungible and non-fungible. An example relates to security tokens where the non-fungible token partition may have specific covenants (e.g., vesting period specific to the token-owner).
+### (5) 转让和所有权限制
 
-### (5) Transfer and Ownership Restrictions
+从代码的角度来看，实用型代币和证券型代币之间的主要区别在于是否对转让和所有权有限制。
 
-From a code perspective, the main distinction between a utility and security token refers to whether there are restrictions on transfers and ownership.
+突出的例子包括以太坊的ERC-1400标准集，它可以通过对如两个地址之间的限制性转让或地址黑名单来施加限制。另一方面，绝大多数ERC-20代币不包含所有权或转让限制。
 
-Prominent examples include Ethereum's ERC-1400 set of standards which can impose restrictions such as limited transfers between two addresses or the blacklisting of some addresses.
+### (6) 稀缺性：可铸造或存在最大发行量
 
-On the other hand, the vast majority of ERC-20 tokens do not incorporate ownership or transfer restrictions.
+代币可以是固定供应，也可以随时间变化供应。智能合约中可以包含不同的功能（原生），例如允许在未来更改供应的销毁和铸币功能。
+此外，还有一个区别，即哪个地址可以有效地调用这些“供应变化函数”。这些功能可以由单个地址（“中心调用模型”）或多个地址（“开放调用模型”）执行。
 
-### (6) Scarcity: Mint-ability and Fixed Maximum Supply
+### (7) 可分割性和精度
 
-Tokens can either have a fixed supply or a supply that may vary over time. Different functions can be incorporated in a  smart-contract (or natively), such as the burn and mint functions, which allow future changes in the supply.
+有一些关于代币是否可分割以及最大精度的标准。
+一些同质化的代币是不可分割的，另外一些则允许特定精度的代币分割，如小数点后18位。另一方面，非同质化代币（NFT）本质上是不可分割的，因为每个代币都是独一无二的。
 
-Furthermore, there is a distinction between which address can effectively call these “supply changing functions”. These functions can either be performed by a single address ("central call model") or by multiple addresses ("open call model").
+### (8) 隐私功能
+该标准是指令牌是否可以进行隐私转账。一些隐私功能是基于区块链本身的（例如，Dusk网络），另外一些是通过二层网络实现的。
 
+### (9) 治理和其他功能
 
-### (7) Divisibility and Precision Level
+最后还有一个因素，涉及代币智能合约中是否构建了其他函数。一些代币具有投票权或治理功能。例如，Maker（MKR）持有人可以参与链上治理过程，为CDP设定稳定费用（[债务抵押头寸]（https://cdp.makerdao.com/help/what-is-a-collateralized-debt-position-cdp））。
 
-There are some criteria on whether a token is divisible and the maximum precision level.
+## 2. 案例参考
 
-Some fungible tokens are indivisible where others allow specific precision levels such as 18 decimals. On the other hand, non-fungible tokens are, by nature, indivisible as each token has unique characteristics.
-
-### (8) Privacy Features
-
-This criterion refers to whether the token can be transferred through private transactions. Some privacy features can exist at the blockchain level (e.g, Dusk Network) or through a second layer implementation.
-
-### (9) Governance and Other Additional Functions
-
-Another final component relates to whether additional functions are built in the token smart contract. Some tokens carry voting rights or governance functions. For instance, Maker (MKR) holders can participate in the on-chain governance process, setting up the stability fee for CDPs ([Collateralized Debt Positions](https://cdp.makerdao.com/help/what-is-a-collateralized-debt-position-cdp)). 
-
-## 2. Case studies
-
-In this section, six tokens are randomly selected and analyzed through the lens of the Binance’s token framework, which was defined previously.
+在这一部分中将随机选择六个代币，并通过Binance的代币框架（前面已经定义）进行分析。
 
 ### 2.1 Basic Attention Token (BAT)
 
